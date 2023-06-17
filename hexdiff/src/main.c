@@ -78,12 +78,12 @@ void print_ascii_line(char *file, bool *difference_array, int i, int max_lenght)
         if (x == 8)
             printf("  ");
         if ( file[i + x] >= 31 ) {
-        
+
             if (difference_array[i + x] == true)
                 printf( GREEN " %c " RESET, file[i + x] );
             else
                 printf( RED " %c " RESET, file[i + x] );
-        
+
         } else
             printf(" . ");
     }
@@ -98,6 +98,11 @@ void print_hex_line(char *file, bool *difference_array, int i, int max_lenght)
     for (; x < 16 && i + x < max_lenght; x++) {
         if (x == 8)
             printf("  ");
+
+        if ( file[i + x] == -1 ) {
+            printf(RESET "FF ");
+            continue;
+        }
 
         if (difference_array[i + x] == true)
             printf(GREEN "%c%c " RESET, binary_to_ascii(file[i + x], 1), binary_to_ascii(file[i + x], 2) );
