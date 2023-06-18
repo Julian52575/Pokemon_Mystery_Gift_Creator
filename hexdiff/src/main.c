@@ -157,10 +157,9 @@ int main(int ac, char **av)
         return 84;
 
     max_lenght = (len1 > len2 ? len1 : len2);
-    printf("Max _%d_ | l1 _%d_ | l2 _%d_\n", max_lenght, len1, len2);///
     difference_array = malloc(sizeof(bool) * max_lenght);
     compare_hexs(one, second, difference_array, max_lenght, len1, len2);
-    printf(BOLDYELLOW "\t\t\t%s\t\t\t\t\t\t\t%s\n" RESET, av[1], av[2]);
+    printf(BOLDYELLOW "\t\t\t%s\t\t\t\t\t\t\t%s\n" RESET, av[1 + ascii], av[2 + ascii]);
     print_difference(one, second, difference_array, max_lenght, ascii);
     free(one);
     free(second);
