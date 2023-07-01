@@ -1,7 +1,13 @@
 tinke/
 rooms/
+zips/
 a.out
 *.nds
 *.bin
 *.txt
 *.zip
+*.pgt
+*.pg4
+*.wc4
+*.xdelta
+
