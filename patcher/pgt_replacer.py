@@ -4,8 +4,8 @@ import sys
 
 offset = 0x178200 + 0x50
 
-if len( sys.argv ) != 3:
-    print( "Usage: ./PGT_patcher\tROM file[.nds]\tMystery Gift file[.pgt]" )
+if len( sys.argv ) != 4:
+    print( "Usage: python3 PGT_patcher\tROM file[.nds]\tMystery Gift file[.pgt]\t<New ROM Name" )
     exit(1)
 
 #Reading the pgt file
@@ -36,8 +36,9 @@ except IOError:
         exit(84)
 
 
+new_rom_name = sys.argv[3] + ".nds"
 #Writing the new data to the rom
-with open( sys.argv[1], mode='wb' ) as rom :
+with open( new_rom_name, mode='wb' ) as rom :
     rom_data = rom_data[:offset] + pgt_data + rom_data[ (offset + len(pgt_data)): ]
     rom.write(rom_data)
 
