@@ -1,6 +1,9 @@
 tinke/
 rooms/
 zips/
+*test*/
+saves/
+extract/
 a.out
 *.nds
 *.bin
@@ -8,6 +11,8 @@ a.out
 *.zip
 *.pgt
 *.pg4
+*.pk4
 *.wc4
+*.pkm
 *.xdelta
-
+vgcore*
