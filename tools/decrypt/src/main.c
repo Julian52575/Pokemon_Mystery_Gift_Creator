@@ -5,6 +5,7 @@
 ** main
 */
 
+
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -17,34 +18,12 @@
 #include <stddef.h>
 #include <stdio.h>
 char binary_to_ascii(unsigned char c, int half);
+char *my_open_file(const char *file, int *len);
 
 typedef union union_s {
     unsigned char hex_array[1];
     unsigned short int usi;
 } union_t;
-
-static char *my_open_file(const char *file, int *len)
-{
-    struct stat sb;
-    int fd = 0;
-    char *buffer = NULL;
-
-    if (stat(file, &sb) != 0)
-        return NULL;
-    fd = open( (const char *) file, O_RDONLY);
-    if (fd == -1)
-        return NULL; 
-    *len = sb.st_size;
-    buffer = malloc(sizeof(char) * (sb.st_size + 1));
-    if (!buffer)
-        return NULL;
-    buffer[sb.st_size] = '\0';
-    if (read(fd, buffer, sb.st_size) == - 1) {
-        free(buffer);
-        return NULL;
-    }
-    return buffer;
-}
 
 //
 static void print_file(unsigned char *file, int lenght)
@@ -60,56 +39,80 @@ static void print_file(unsigned char *file, int lenght)
     printf("\n");
 }
 
-
-static unsigned short int rand_function(unsigned char *file, int n)
+static unsigned long int PRNG_call(unsigned long int seed)
 {
-    unsigned short int li = file[ n + 1 ] = (0x41C64E6D * file[ n ] + 0x6073);
-    return li;
+    return (0x41C64E6Du * seed + 0x00006073u);
 }
 
-static void decrypt_file(unsigned char *file, int lenght, int n)
+static void PRNG_function(unsigned long int *result, unsigned short *key)
 {
-    unsigned short int seed = 0; //signed or not ?
-    union_t u = { 0 };
-    if ( n >= lenght )
-        return;
+    unsigned char consecutive[16];
+    unsigned short shift = 31;
+    //unsigned long long int long_filter = 0xFFFFFFFFFF00000000;
+    //unsigned long int short_filter = 0xFFFF0000;
 
-    //Filling the union
-    u.hex_array[1] = file[ n ];
-    u.hex_array[0] = file[ n + 1 ];
+    *result = PRNG_call(*result);
+    *key = (unsigned short) (*result >> 0x10);
+}
 
-    printf("File[ %d ]", n);//////////////////////////////
-    printf(" _%x_ - _%x_", u.hex_array[1], u.hex_array[0] );
-    printf(" | 2Bytes Words : _%x_.\n", u.usi);
+/*
+static unsigned short swap_endian_short(unsigned short word)
+{
+    char right = word >> 8;
+    unsigned short left = (word << 8) ^ 0xFF0000;
 
-    //Getting and applying the seed
-    seed = rand_function(file, n);
-    u.usi ^= seed;
+    fprintf(stderr, "Right _%4x_ & Left _%4x_.\n", right, left);//
+    return left + right;
+}
+*/
 
-    //Modifying the file
-    file[ n ] = u.hex_array[1];
-    file[ n + 1] = u.hex_array[0];
 
-    printf("Seed is _%u_ / _%b_\n", seed, seed);///////////////////////////////
-    printf(" | hex is _%x_ / _%b_.\n", u.usi, u.usi);
+//char 0x00 | short 0x0000
+static void decrypt_file(unsigned char *file, int lenght, unsigned long int pid)
+{
+    unsigned long int checksum = file[1] * (16 * 16) + file[0];
+    unsigned long int result = checksum; 
+    unsigned short key = 0x0000;
+    unsigned short Y = 0x0000;
+    union_t u = {0};
+    bool changeSeed = false;
 
-    //Recursive
-    decrypt_file(file, lenght, n + 1);
+
+    printf("\nStarting decryption with checksum _%4x_ | Pid _%12x_\n", checksum, pid);
+    //fprintf(stderr, "Checksum is _%8x_ || PRNG is _%8x_ | _%32b_\n", checksum, key, key);///
+    file += 2;
+ 
+    for ( int i = 0; i < lenght && i < 0xe4; i += 2 ) {
+        if ( i >= 0x80 && (changeSeed == false) ) {
+            fprintf(stderr, "Changing seed at i _%d_ | file[i] _%2x__%2x_.\n", i, file[i], file[i + 1]);
+            result = pid;
+            changeSeed = true;
+        }
+        //fprintf(stderr, "After PRNG call : file[i] _%2x_ ^ key _%2x_ | result _%x_.\n", file[i], key, result);
+        PRNG_function(&result, &key);
+        Y = (file[i + 1] * (16 * 16) + file[i]);
+        u.usi = Y ^ key;
+        file[i] = u.hex_array[0];
+        file[i + 1] = u.hex_array[1];
+        //fprintf(stderr, "Key _%4x_ ^ Y _%4x_ = usi _%4x_ | File _%2x_%2x_.\n", key, Y, u.usi, file[i], file[i + 1] );
+    }
 }
 
 int main(int ac, char **av)
 {
     unsigned char *file = NULL;
     int lenght = 0;
+    unsigned long int pid = 0x00000000;
 
     if (ac < 2)
         return printf("Usage: decrypt {file}.\n");
     file = (unsigned char *) my_open_file(av[1], &lenght);
     if (!file)
         return 84;
-    printf("Starting decryption\n");
     print_file(file, lenght);//
-    decrypt_file(file + 0x10, lenght - 0x10, 0);
+
+    pid = file[0] + (file[1] * (16 * 16)) + (file[2] * (16 * 16 * 16)) + (file[3] * (16 * 16 * 16 * 16) );
+    decrypt_file(file + 0x0e, lenght - 0x0e, pid);
     print_file(file, lenght);
     free(file);
     return 0;
