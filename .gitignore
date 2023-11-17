@@ -1,10 +1,19 @@
+#Folders
 tinke/
 rooms/
 zips/
 *test*/
 saves/
 extract/
+JP Library/
+
+#Binaries
 a.out
+*.so
+*.o
+*vgcore*
+
+#Files
 *.nds
 *.bin
 *.txt
@@ -15,4 +24,4 @@ a.out
 *.wc4
 *.pkm
 *.xdelta
-vgcore*
+
