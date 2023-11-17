@@ -13,7 +13,7 @@ a.out
 *.o
 *vgcore*
 decrypt_pokemon_file
-
+unit_test
 
 #Files
 *.nds
