@@ -26,6 +26,8 @@ char
 binary_to_ascii(unsigned char c, int half);
 char *
 my_open_file(const char *file, int *len);
+bool
+write_in_new_file(unsigned char *content, int lenght, char *new_file_name);
 void
 print_hex_file(unsigned char *file, int lenght);
 bool
