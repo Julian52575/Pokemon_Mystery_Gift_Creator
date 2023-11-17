@@ -12,6 +12,8 @@ a.out
 *.so
 *.o
 *vgcore*
+decrypt_pokemon_file
+
 
 #Files
 *.nds

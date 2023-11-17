@@ -8,7 +8,7 @@
 #include "lib.h"
 
 void
-print_file(unsigned char *file, int lenght)
+print_hex_file(unsigned char *file, int lenght)
 {
     for (int i = 0; i < lenght; i++) {
         if (i % 16 == 0) {

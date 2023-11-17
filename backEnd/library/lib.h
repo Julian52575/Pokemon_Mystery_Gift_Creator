@@ -18,14 +18,19 @@
 #include <stddef.h>
 
 //Lib Prototype
+long long int
+my_compute_power(int nb, int pow);
+
+//Cooler Lib Prototype
 char 
 binary_to_ascii(unsigned char c, int half);
 char *
 my_open_file(const char *file, int *len);
 void
-print_file(unsigned char *file, int lenght);
-long long int
-my_compute_power(int nb, int pow);
+print_hex_file(unsigned char *file, int lenght);
+bool
+compare_hex_array(unsigned char *first, int first_length, 
+                    unsigned char *second, int second_length);
 
 //Easy convertion union
 typedef union union_s {

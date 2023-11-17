@@ -13,8 +13,14 @@ DECRYPT_FILES 	= 	$(shell find ./decrypt/src/ -type f -name '*.c')
 OBJ 	= 	$(LIB_FILES:.c=.o) \
 			$(DECRYPT_FILES:.c=.o)
 
-CFLAGS 	= 	-shared -Wall -Wextra -Wfatal-errors -pedantic-errors -g
-INCLUDES 	= 	-I./library/
+CFLAGS 	= 	-shared \
+			-Wall \
+			-Wextra \
+			-Wfatal-errors \
+			-g
+
+INCLUDES 	= 	-I./library/ \
+				-I./decrypt/
 
 
 all:
