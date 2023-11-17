@@ -25,6 +25,22 @@ typedef union union_s {
     unsigned short int usi;
 } union_t;
 
+static void
+save_file(unsigned char *file, int lenght, char *file_name)
+{
+    int fd = 0;
+
+    fd = creat( (const char *) file_name,// O_CREAT | O_WRONLY,
+            S_IRUSR | S_IWUSR);
+    if (fd == -1)
+        return (void) fprintf(stderr, "Cannot open file.\n");
+    if ( write(fd, file, lenght) <= 0 )
+        return (void) fprintf(stderr, "Cannot write in file.\n");
+    close(fd);
+    return;
+}
+
+
 //
 static void print_file(unsigned char *file, int lenght)
 {
@@ -39,36 +55,22 @@ static void print_file(unsigned char *file, int lenght)
     printf("\n");
 }
 
-static unsigned long int PRNG_call(unsigned long int seed)
+static unsigned long int
+PRNG_call(unsigned long int seed)
 {
     return (0x41C64E6Du * seed + 0x00006073u);
 }
 
-static void PRNG_function(unsigned long int *result, unsigned short *key)
+static void 
+PRNG_function(unsigned long int *result, unsigned short *key)
 {
-    unsigned char consecutive[16];
-    unsigned short shift = 31;
-    //unsigned long long int long_filter = 0xFFFFFFFFFF00000000;
-    //unsigned long int short_filter = 0xFFFF0000;
-
     *result = PRNG_call(*result);
     *key = (unsigned short) (*result >> 0x10);
 }
 
-/*
-static unsigned short swap_endian_short(unsigned short word)
-{
-    char right = word >> 8;
-    unsigned short left = (word << 8) ^ 0xFF0000;
-
-    fprintf(stderr, "Right _%4x_ & Left _%4x_.\n", right, left);//
-    return left + right;
-}
-*/
-
-
 //char 0x00 | short 0x0000
-static void decrypt_file(unsigned char *file, int lenght, unsigned long int pid)
+static void
+decrypt_file(unsigned char *file, int lenght, unsigned long int pid)
 {
     unsigned long int checksum = file[1] * (16 * 16) + file[0];
     unsigned long int result = checksum; 
@@ -78,13 +80,13 @@ static void decrypt_file(unsigned char *file, int lenght, unsigned long int pid)
     bool changeSeed = false;
 
 
-    printf("\nStarting decryption with checksum _%4x_ | Pid _%12x_\n", checksum, pid);
+    printf("\nStarting decryption with checksum _%4lx_ | Pid _%12lx_\n", checksum, pid);
     //fprintf(stderr, "Checksum is _%8x_ || PRNG is _%8x_ | _%32b_\n", checksum, key, key);///
     file += 2;
  
     for ( int i = 0; i < lenght && i < 0xe4; i += 2 ) {
         if ( i >= 0x80 && (changeSeed == false) ) {
-            fprintf(stderr, "Changing seed at i _%d_ | file[i] _%2x__%2x_.\n", i, file[i], file[i + 1]);
+            //fprintf(stderr, "Changing seed at i _%d_ | file[i] _%2x__%2x_.\n", i, file[i], file[i + 1]);
             result = pid;
             changeSeed = true;
         }
@@ -98,7 +100,8 @@ static void decrypt_file(unsigned char *file, int lenght, unsigned long int pid)
     }
 }
 
-int main(int ac, char **av)
+int
+main(int ac, char **av)
 {
     unsigned char *file = NULL;
     int lenght = 0;
@@ -114,6 +117,7 @@ int main(int ac, char **av)
     pid = file[0] + (file[1] * (16 * 16)) + (file[2] * (16 * 16 * 16)) + (file[3] * (16 * 16 * 16 * 16) );
     decrypt_file(file + 0x0e, lenght - 0x0e, pid);
     print_file(file, lenght);
+    save_file(file, lenght, "decryptedFile");
     free(file);
     return 0;
 }
