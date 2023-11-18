@@ -19,7 +19,7 @@ CFLAGS 	= 	-shared \
 			-Wfatal-errors \
 			-g
 
-INCLUDES 	= 	-I./library/ \
+INCLUDES 	= 	-I./library/includes/ \
 				-I./decrypt/
 
 
@@ -30,7 +30,7 @@ all:
 			$(INCLUDES) 	\
 			$(INCLUDES)
 
-clean:
-	make -C asm/ clean
+fclean:
+	rm $(NAME)
 
-.Phony:
+.Phony: fclean
