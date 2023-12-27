@@ -5,16 +5,17 @@
 ## Makefile
 ##
 
-NAME = libMysteryGift.so
+NAME = libMysteryGift.so.0.1
 
-LIB_FILES 	= 	$(shell find ./library/src/ -type f -name '*.c')
-DECRYPT_FILES 	= 	$(shell find ./decrypt/src/ -type f -name '*.c')
+LIB_SRC 	= 	$(shell find ./library/src/ -type f -name '*.c')
+DECRYPT_SRC 	= 	./decrypt/src/decrypt.c
 
-OBJ 	= 	$(LIB_FILES:.c=.o) \
-			$(DECRYPT_FILES:.c=.o)
+LIB_OBJ 	= 	$(LIB_FILES:.c=.o)
+DECRYPT_OBJ 	= 	$(DECRYPT_FILES:.c=.o)
 
-CFLAGS 	= 	-shared \
-			-Wall \
+OBJ_DIR 	= 	./obj
+
+CFLAGS 	= 	-Wall \
 			-Wextra \
 			-Wfatal-errors \
 			-g
@@ -22,15 +23,43 @@ CFLAGS 	= 	-shared \
 INCLUDES 	= 	-I./library/includes/ \
 				-I./decrypt/
 
+#gcc -shared -Wl,-soname,libmystuff.so.1 \
+ #   -o libmystuff.so.1.0.1 a.o b.o -lc
 
-all:
-	gcc -o $(NAME) \
-			$(LIB_FILES) 	\
-			$(DECRYPT_FILES) \
-			$(INCLUDES) 	\
-			$(INCLUDES)
+
+#.#.#.
+decrypt:
+	gcc -fPIC -c \
+		$(CFLAGS) \
+		$(DECRYPT_FILES) \
+		-o 
+
+
+decrypt_clean:
+	rm $(DECRYPT_OBJ)
+
+#.#.#.
+library:
+	gcc -fPIC -c \
+		$(CFLAGS) \
+		$(LIB_FILES)
+
+library_clean:
+	rm $(LIB_OBJ)
+
 
 fclean:
 	rm $(NAME)
 
-.Phony: fclean
+
+
+all: library decrypt
+	gcc -shared -fPIC -c \
+		$(CFLAGS) \
+		$(INCLUDES) \
+		-o $(NAME) \
+		$(LIB_OBJ) \
+		$(DECRYPT_OBJ)
+
+
+.Phony: fclean decrypt library

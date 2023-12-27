@@ -6,6 +6,7 @@
 ##
 
 NAME 	= 	decrypt_pokemon_file
+SHARED_NAME 	= 	decrypt_pokemon_file.o
 CRITERIONNAME 	= 	unit_test
 
 SRC 	= 	$(shell find src/ -type f -name '*.c')
@@ -16,7 +17,7 @@ CRITERION 	= 	$(shell find criterion/*_t.c)
 OBJ 	= 	$(SRC.c=.o)
 
 CFLAGS 	= 	-Wall -Wextra -Wfatal-errors -g
-INCLUDES 	= 	-I../library/ -I./
+INCLUDES 	= 	-I../library/includes/ -I./
 CRITERIONFLAGS 	= 	-lcriterion
 
 all:
@@ -35,6 +36,13 @@ test_run:
 			$(CRITERIONFLAGS) \
 			$(INCLUDES)
 	./unit_test
+
+shared:
+	gcc src/decrypt.c \
+			$(LIBSRC) \
+			$(CFLAGS) \
+			$(INCLUDES) \
+			-fPIC -c
 
 clean:
 	rm -f $(OBJ)
