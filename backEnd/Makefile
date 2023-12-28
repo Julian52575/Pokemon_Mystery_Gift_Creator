@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-NAME = libMysteryGift.so.0.1
+NAME = libMysteryGift.so
 
 LIB_SRC 	= 	$(shell find ./library/src/ -type f -name '*.c')
 DECRYPT_SRC 	= 	./decrypt/src/decrypt.c
@@ -31,8 +31,7 @@ INCLUDES 	= 	-I./library/includes/ \
 decrypt:
 	gcc -fPIC -c \
 		$(CFLAGS) \
-		$(DECRYPT_FILES) \
-		-o 
+		$(DECRYPT_FILES) 
 
 
 decrypt_clean:
