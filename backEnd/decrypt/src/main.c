@@ -12,7 +12,7 @@ int
 main(int ac, char **av)
 {
     unsigned char *file = NULL;
-    int lenght = 0;
+    int32_t lenght = 0;
 
     if (ac < 2)
         return printf("Usage: decrypt {file}.\n");
@@ -23,5 +23,6 @@ main(int ac, char **av)
     printf("\n...Here is your undecrypted file :\n");
     decrypt_file(file, lenght);
     print_hex_file(file, lenght);
+    write_in_new_file(file, lenght, "Unencrypted file");
     return 0;
 }

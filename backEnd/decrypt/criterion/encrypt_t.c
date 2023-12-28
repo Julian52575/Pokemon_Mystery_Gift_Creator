@@ -1,8 +1,8 @@
 /*
-** EPITECH PROJECT, 2023
+** RULIAN PROJECT, 2023
 ** project_name
 ** File description:
-** decrypt_celebi_t
+** encrypt_t
 */
 
 #include <criterion/criterion.h>
@@ -16,12 +16,12 @@
 
 bool open_decrypt_compare_files(char E[], char D[]);
 
-Test(Riolu, Decryption)
+Test(Riolu, Encryption)
 {
-   cr_assert( open_decrypt_compare_files(RIOLU_ENCRYPTED, RIOLU_DECRYPTED) );
+    cr_assert( open_decrypt_compare_files(RIOLU_DECRYPTED, RIOLU_ENCRYPTED ) );
 }
 
-Test(Celebi, Decryption)
+Test(Celebi, Encryption)
 {
-   cr_assert( open_decrypt_compare_files(CELEBI_ENCRYPTED, CELEBI_DECRYPTED) );
+    cr_assert( open_decrypt_compare_files(CELEBI_DECRYPTED, CELEBI_ENCRYPTED ) );
 }

@@ -11,7 +11,7 @@ CRITERIONNAME 	= 	unit_test
 
 SRC 	= 	$(shell find src/ -type f -name '*.c')
 LIBSRC 	= 	$(shell find ../library/src/ -type f -name '*.c')
-CRITERION 	= 	$(shell find criterion/*_t.c)
+CRITERION 	= 	$(shell find criterion/*.c)
 
 
 OBJ 	= 	$(SRC.c=.o)
