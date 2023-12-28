@@ -7,6 +7,8 @@
 
 #pragma once
 
+//uint16_t my love <3 <3 <3
+#include <stdint.h>
 //LibC Include
 #include <stdio.h>
 #include <sys/types.h>

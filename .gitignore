@@ -30,4 +30,9 @@ unit_test
 *.wc4
 *.pkm
 *.xdelta
+*TMP*
+*tmp*
+
+#Working files
 Unencrypted file
+New_Checksum.pgt
