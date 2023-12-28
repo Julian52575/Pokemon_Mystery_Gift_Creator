@@ -24,5 +24,6 @@ main(int ac, char **av)
     decrypt_file(file, lenght);
     print_hex_file(file, lenght);
     write_in_new_file(file, lenght, "Unencrypted file");
+    free(file);
     return 0;
 }
