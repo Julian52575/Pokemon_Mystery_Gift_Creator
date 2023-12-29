@@ -17,7 +17,7 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     uint32_t a;             /*  Unknow  */
     uint32_t nature_shinyness;   /*  */
     uint16_t b;           /*  Unknow  */
-    uint16_t checksum;    /*  Unknow  */
+    uint16_t checksum;    /*  dear god  */
 
     /*          Pokemon Data            */
     uint16_t dex_number;
