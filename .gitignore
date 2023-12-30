@@ -12,12 +12,12 @@ JP Library/
 
 #Binaries
 a.out
-lib.a
+*a
 *.so
 *.o
 *vgcore*
-decrypt_pokemon_file
-update_checksum
+decrypt_pokemon_file.out
+update_checksum.out
 unit_test
 hexdiff
 

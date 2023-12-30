@@ -4,6 +4,8 @@
 ## File description:
 ## Makefile
 ##
+YEL=\033[1;33m # thx StackOverflow
+NC=\033[0m # No Color
 
 OUT 	= 	libmy.a
 
@@ -34,6 +36,7 @@ INCLUDES 	= 	-I./includes/
 #Output name $@ is the rule name 	aka 	object_dir/%current file.o
 #File to compile $< 	aka 	source_dir/%current file.c
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	echo -e "$(YEL)\tCompiling $< for library\t$(NC)"
 	gcc -c \
 		-Iinc \
 		-o $@ \
@@ -41,14 +44,10 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 		$(CFLAGS) \
 		$(INCLUDES)
 
-
-		#Building the lib#
-#$^  
 all: $(OBJ_DIR_FILES)
+	echo -e "$(YEL)\tTurning object file into a library\t$(NC)"
 	ar rvs $(OUT) $^
-
-.Phony:
-	all test_run clean fclean re
+	echo -e "$(YEL)\tlibmy.a done !\t$(NC)"
 
 clean:
 	rm -f --verbose $(OBJ_DIR_FILES)
@@ -57,4 +56,7 @@ fclean: clean
 	(test -f $(OUT) && rm --verbose $(OUT)) || exit 0
 
 re: fclean all
+
+.Phony:
+	all test_run clean fclean re
 

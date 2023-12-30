@@ -4,8 +4,10 @@
 ## File description:
 ## Makefile
 ##
+YEL=\033[1;33m # thx StackOverflow
+NC=\033[0m # No Color
 
-NAME 	= 	decrypt_pokemon_file
+NAME 	= 	decrypt_pokemon_file.out
 SHARED_NAME 	= 	decrypt_pokemon_file.o
 CRITERIONNAME 	= 	unit_test
 LIB_NAME = 	../library/libmy.a
@@ -39,6 +41,7 @@ test_run:
 	./unit_test
 
 shared:
+	echo -e "$(YEL)\tCompiling src/decrypt.c\t$(NC)"
 	gcc src/decrypt.c \
 		-L../library/my -lmy \
 			$(CFLAGS) \

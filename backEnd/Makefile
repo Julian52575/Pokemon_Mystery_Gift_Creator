@@ -4,61 +4,41 @@
 ## File description:
 ## Makefile
 ##
+YEL=\033[1;33m # thx StackOverflow
+NC=\033[0m # No Color
+
+
 
 NAME = libMysteryGift.so
+LIB_NAME = ./library/libmy.a
+FOLDER_LIST = 	./decrypt/ \
+				./update_checksum/
 
-LIB_SRC 	= 	$(shell find ./library/src/ -type f -name '*.c')
-DECRYPT_SRC 	= 	./decrypt/src/decrypt.c
-
-LIB_OBJ 	= 	$(LIB_FILES:.c=.o)
-DECRYPT_OBJ 	= 	$(DECRYPT_FILES:.c=.o)
-
-OBJ_DIR 	= 	./obj
 
 CFLAGS 	= 	-Wall \
 			-Wextra \
 			-Wfatal-errors \
 			-g
 
-INCLUDES 	= 	-I./library/includes/ \
-				-I./decrypt/
 
-#gcc -shared -Wl,-soname,libmystuff.so.1 \
- #   -o libmystuff.so.1.0.1 a.o b.o -lc
-
-
-#.#.#.
-decrypt:
-	gcc -fPIC -c \
-		$(CFLAGS) \
-		$(DECRYPT_FILES) 
-
-
-decrypt_clean:
-	rm $(DECRYPT_OBJ)
-
-#.#.#.
-library:
-	gcc -fPIC -c \
-		$(CFLAGS) \
-		$(LIB_FILES)
-
-library_clean:
-	rm $(LIB_OBJ)
-
-
-fclean:
-	rm $(NAME)
-
-
-
-all: library decrypt
-	gcc -shared -fPIC -c \
-		$(CFLAGS) \
-		$(INCLUDES) \
+		#Calling makefile in each subfolder
+#Rule name $@ is the current folder 	
+all: cleanSO cleanOBJ
+	make re -C ./library/
+	$(foreach folder,$(FOLDER_LIST), make shared -C $(folder);) #call a makefile for each folder in folder_list
+	gcc -shared -fPIC \
 		-o $(NAME) \
-		$(LIB_OBJ) \
-		$(DECRYPT_OBJ)
+		$(CFLAGS) \
+		-L$(LIB_NAME) \
+		./obj/*.o
 
+cleanOBJ:
+	test -d ./obj/ || mkdir --verbose ./obj #Only mkdir obj if obj is not found
+	(find ./obj/ -empty | grep obj) || rm --verbose ./obj/*.o #Only rm .* if obj folder is empty
 
-.Phony: fclean decrypt library
+cleanSO:
+	test $(NAME) || rm --verbose $(NAME)
+
+fclean: cleanSO cleanOBJ
+
+.Phony: all cleanSO cleanOBJ fclean decrypt library
