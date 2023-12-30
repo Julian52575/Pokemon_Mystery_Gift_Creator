@@ -23,7 +23,7 @@ main(int ac, char **av)
     printf("\n...Here is your undecrypted file :\n");
     decrypt_file(file, lenght);
     print_hex_file(file, lenght);
-    write_in_new_file(file, lenght, "Unencrypted file");
+    write_in_new_file(file, lenght, "[TMP]_encryption_file");
     free(file);
     return 0;
 }

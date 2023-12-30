@@ -23,7 +23,7 @@ PRNG_function(unsigned long int *result, unsigned short *key)
 //Read the PID and the Checksum before decrypting the bytes
 //Returns void as the bytes pointed by file are directly decrypted
 void
-decrypt_file(unsigned char *file, int lenght)
+decrypt_file(uint8_t *file, int lenght)
 {
     unsigned long int pid = file[8]
                             + ( file[9] * my_compute_power(16, 2) )

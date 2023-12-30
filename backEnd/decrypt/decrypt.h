@@ -5,5 +5,7 @@
 ** decrypt header
 */
 
+#include <stdint.h>
+
 void
-decrypt_file(unsigned char *file, int lenght);
+decrypt_file(uint8_t *file, int lenght);
