@@ -8,11 +8,12 @@
 NAME 	= 	decrypt_pokemon_file
 SHARED_NAME 	= 	decrypt_pokemon_file.o
 CRITERIONNAME 	= 	unit_test
+LIB_NAME = 	../library/libmy.a
+
 
 SRC 	= 	$(shell find src/ -type f -name '*.c')
 LIBSRC 	= 	$(shell find ../library/src/ -type f -name '*.c')
 CRITERION 	= 	$(shell find criterion/*.c)
-
 
 OBJ 	= 	$(SRC.c=.o)
 
@@ -39,10 +40,11 @@ test_run:
 
 shared:
 	gcc src/decrypt.c \
-			$(LIBSRC) \
+		-L../library/my -lmy \
 			$(CFLAGS) \
 			$(INCLUDES) \
-			-fPIC -c
+			-c
+	mv ./decrypt.o ../obj
 
 clean:
 	rm -f $(OBJ)

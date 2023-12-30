@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-OUT 	= 	lib.a
+OUT 	= 	libmy.a
 
 SRC_FILES 	= 	bin_to_ascii.c \
 			compare_hex_array.c \
