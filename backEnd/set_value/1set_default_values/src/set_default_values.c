@@ -8,7 +8,7 @@
 #include "pokemon_file.h"
 
 void
-set_default(pokemon_file_t *pf)
+set_default_values(pokemon_file_t *pf)
 {
     /*      Set all values to 0x01      */
     (*pf) = {0x01};
