@@ -7,8 +7,7 @@
 
 #include <stdint.h>
 
-typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
-{
+struct __attribute__((packed, scalar_storage_order("big-endian"))) pokemon_file_s {
     /*          "Header"          */
 
     uint16_t gift_type;   /*  00 01 for pokemon   */
@@ -83,14 +82,14 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     /*          Nickname                */
     uint16_t nickname[11];    /* see character_encoding.h */
     
-    uint8_t unused;
+    uint8_t unused2;
 
     uint8_t origin_game;
 
     /*          Sinnoh Ribbons 2         */
     uint32_t sinnoh_ribbons_2;  /* see sinnoh_ribbons_2.h   */
 
-    uint32_t unused2;
+    uint32_t unused3;
     
     /*          Trainer Name             */
     uint16_t trainer_name[8];
@@ -127,4 +126,5 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     uint16_t current_hp;
     uint16_t current_atk;
 
-} pokemon_file_t;
+};
+typedef struct pokemon_file_s pokemon_file_t;
