@@ -27,6 +27,13 @@ all:
 			$(CFLAGS) \
 			$(INCLUDES)
 
+debug:
+	gcc -g -o $(NAME) \
+			$(SRC) \
+			$(LIBSRC) \
+			$(CFLAGS) \
+			$(INCLUDES)
+
 test_run:
 	gcc -o $(CRITERIONNAME) \
 			src/update_checksum.c \
@@ -53,4 +60,4 @@ fclean: clean
 re: fclean all
 
 .Phony:
-	all test_run clean fclean re
+	all debug test_run clean fclean re

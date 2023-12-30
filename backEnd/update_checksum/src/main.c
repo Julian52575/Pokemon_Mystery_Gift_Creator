@@ -21,7 +21,7 @@ main(int argc, char **argv)
     file = (uint8_t *) my_open_file(argv[1], &lenght);
     update_checksum(file, lenght);
     print_hex_file(file, lenght);
-    write_in_new_file(file, lenght, "New_Checksum.pgt");
-    free(file);
+    write_in_new_file(file, lenght, "[TMP]_new_checksum.pgt");
+    //free( (void *) file);
     return 0;
 }
