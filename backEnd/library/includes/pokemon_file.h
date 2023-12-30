@@ -64,7 +64,8 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     uint8_t pp_up3;
     uint8_t pp_up4;
 
-    uint32_t individual_value;  /*  Bit 30 = Egg flag;
+    uint32_t individual_value;  /* IVs
+                                    Bit 30 = Egg flag;
                                         Bit 31 = Nickname flag   */
 
     /*          Hoenn Ribbons           */
@@ -76,8 +77,8 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     uint8_t shiny_leaves;
 
     uint16_t unused;
-    uint16_t platinum_egg_location;
-    uint16_t platinum_met_location;
+    uint16_t egg_location;
+    uint16_t met_location;
 
     /*          Nickname                */
     uint16_t nickname[11];    /* see character_encoding.h */
@@ -93,4 +94,37 @@ typedef struct pokemon_file_s( scalar_storage_order("big-endian") )
     
     /*          Trainer Name             */
     uint16_t trainer_name[8];
+     
+    /*          Date                    */
+    uint8_t egg_year;
+    uint8_t egg_month;
+    uint8_t egg_day;
+
+    uint8_t met_year;
+    uint8_t met_month;
+    uint8_t met_day;
+
+    /*          Old location        */
+    uint16_t egg_location_old;
+    uint16_t met_location_old;
+
+    uint8_t pokerus;
+    uint8_t pokeball;
+    uint8_t met_level_ot_gender;
+    uint8_t c;  /* unused */
+    uint8_t hgss_pokeball;
+    uint8_t d;  /* unused */
+    uint8_t status;
+    uint8_t e;  /* unused */
+    uint16_t f; /* unused */
+    uint8_t level;
+
+    uint8_t seal;
+    
+    /* All of the following data will be replaced by the game once received */
+    /*  On top of being ignored for the checksum calculation     */
+    /*  And working despite a modified encryption   */
+    uint16_t current_hp;
+    uint16_t current_atk;
+
 } pokemon_file_t;
