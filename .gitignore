@@ -17,7 +17,9 @@ lib.a
 *.o
 *vgcore*
 decrypt_pokemon_file
+update_checksum
 unit_test
+hexdiff
 
 #Files
 *.nds
@@ -34,5 +36,5 @@ unit_test
 *tmp*
 
 #Working files
-Unencrypted file
-New_Checksum.pgt
+[TMP]_encryption_file
+[TMP]_new_checksum.pgt
